@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.comic.mapper.BookMapper">
+	<!-- 插入一本书 -->
+	<!-- Integer insertBook(Book book); -->
+	<insert id="insertBook" parameterType="cn.tedu.comic.entity.Book"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into books(
+		bookname,
+		url,
+		type,
+		place,
+		is_use,
+		cover,
+		created_user,
+		created_time,
+		modified_user,
+		modified_time
+		)value(
+		#{bookname},
+		#{url},
+		#{type},
+		#{place},
+		#{isUse},
+		#{cover},
+		#{createdUser},
+		#{createdTime},
+		#{modifiedUser},
+		#{modifiedTime}
+		)
+	</insert>
+
+	<!-- 通过书名查询一本书 -->
+	<!-- Book selectBookByBookname(String bookname); -->
+	<select id="selectBookByBookname" resultType="cn.tedu.comic.entity.Book">
+		select
+		id,
+		bookname,
+		url,
+		intro,
+		type,
+		place,
+		is_use isUse,
+		cover,
+		created_user createdUser,
+		created_time createdTime,
+		modified_user modifiedUser,
+		modified_time modifiedTime,
+		red_ticket redTicket,
+		black_ticket blackTicket
+		from books where bookname=#{bookname}
+	</select>
+
+	<!-- 模糊查询 -->
+	<!-- List<Book> selectBooksLikeName(String likename); -->
+	<select id="selectBooksLikeName" resultType="cn.tedu.comic.entity.Book">
+		select
+		id,
+		bookname,
+		url,
+		type,
+		intro,
+		place,
+		is_use isUse,
+		cover,
+		created_user createdUser,
+		created_time createdTime,
+		modified_user modifiedUser,
+		modified_time modifiedTime
+		from books
+		where bookname like "%"#{likename}"%";
+	</select>
+
+	<!-- void setRedTicket(Integer id); -->
+	<!-- 红票加1 -->
+	<update id="setRedTicket">
+		update books set red_ticket=red_ticket+1 where
+		id=#{id};
+	</update>
+
+	<!-- void setBlackTicket(Integer id); -->
+	<!-- 黑票加1 -->
+	<update id="setBlackTicket">
+		update books set black_ticket=black_ticket+1 where
+		id=#{id};
+	</update>
+	
+	<!-- void collect(Integer uid,Integer bookid); -->
+	<!-- 收藏 -->
+	<insert id="collect">
+		insert into collect(uid,bookid) values(#{uid},#{bookid})
+	</insert>
+	
+	<!-- 根据书的产地找书 -->
+	<!-- List<Book> getBooksByPlace(
+			@Param("place")String place,@Param("l1")Integer l1,
+			@Param("l2")Integer l2
+			); -->
+	<select id="getBooksByPlace" resultType="cn.tedu.comic.entity.Book">
+		select
+			id,
+			bookname,
+			url,
+			intro,
+			type,
+			place,
+			is_use isUse,
+			cover,
+			created_user createdUser,
+			created_time createdTime,
+			modified_user modifiedUser,
+			modified_time modifiedTime,
+			red_ticket redTicket,
+			black_ticket blackTicket
+		from books 
+		where place=#{place}
+		limit #{l1},#{l2}
+	</select>
+	
+	<!-- 查一个产地的书有多少本（国产漫画） -->
+	<!-- Integer getBooksByPlaceCount(String place); -->
+	<select id="getBooksByPlaceCount" resultType="java.lang.Integer">
+		select count(id) from books where place=#{place};
+	</select>
+	
+	<!-- 根据一个产地查询人气前5本的书 -->
+	<!-- List<Book> getFiveBookByPlace(String place); -->
+	<select id="getFiveBookByPlace" resultType="cn.tedu.comic.entity.Book">
+		select 
+			id,
+			bookname,
+			url,
+			intro,
+			type,
+			place,
+			is_use isUse,
+			cover,
+			red_ticket redTicket
+		from books
+		where place like "%"#{place}"%"
+		order by red_ticket desc
+		limit 0,5
+	</select>
+	
+	
+</mapper>

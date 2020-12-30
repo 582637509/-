@@ -1,0 +1,83 @@
+1.创建项目数据库
+create database comics;
+
+use comics;
+
+2.用户表
+create table t_user(
+	id int auto_increment,
+	username varchar(16) unique not null,
+	password char(32) not null,
+	nickname varchar(16),
+	email varchar(32),
+	phone varchar(20),
+	gender int,
+	qq int(15),
+	avadar varchar(50),
+	salt varchar(32),
+	member date,
+	birthday date,
+	contact_way varchar(32),
+	signature varchar(100),
+	gold int,
+	is_delete int,
+	status int,
+	create_user varchar(16),
+	create_time datetime,
+	modified_user varchar(16),
+	modified_time datetime,
+	primary key(id)
+)default charset=utf8;
+
+
+
+
+
+
+
+3.创建书表books
+字段：id，书名，书本地地址,书的类型，书的产地
+create table books(
+	id int auto_increment,
+	bookname varchar(50) unique not null,
+	url varchar(50),
+	type varchar(20),
+	place varchar(20),
+	is_use int,
+	
+	created_user varchar(50),
+	created_time date,
+	modified_user varchar(50),
+	modified_time date,
+	primary key(id)
+)default charset=utf8;
+
+4.创建主页图片信息表
+字段：id，图片位置（如第三行第一张），书名
+create table index_image(
+	id int auto_increment,
+	location varchar(20),
+	bookname varchar(50),
+	cover varchar(100),
+
+	created_user varchar(50),
+	created_time date,
+	modified_user varchar(50),
+	modified_time date,
+	primary key(id)
+);
+
+5.创建用户上传漫画表
+create table user_book(
+	id int auto_increment,
+	uid int,
+	bookname varchar(30),
+	create_time date,
+	pass int(1),
+	url varchar(100),
+	image1url varchar(100),
+	image2url varchar(100),
+	image3url varchar(100),
+	primary key(id)
+)
+国产、日本、欧美、今日、VIP专区、分享区

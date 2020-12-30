@@ -1,0 +1,283 @@
+package cn.tedu.comic.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import cn.tedu.comic.entity.ResponseResult;
+import cn.tedu.comic.entity.User;
+import cn.tedu.comic.entity.Words;
+import cn.tedu.comic.entity.collect;
+import cn.tedu.comic.service.impl.PersonalService;
+import cn.tedu.comic.service.IIndexImageService;
+import cn.tedu.comic.service.ex.UploadAvatarException;
+/**
+ * 处理个人中心页面的操作---控制层
+ * @author Administrator
+ *
+ */
+@Controller
+@RequestMapping("/personal")
+public class PersonalController extends BaseController{
+
+		@Autowired
+		private PersonalService personalService;
+		
+		@Autowired
+		private IIndexImageService indexImageService;
+		/**
+		 * 处理用户修改密码的操作
+		 * @param session	登录后记录着用户的数据
+		 * @param oldPassword  原密码
+		 * @param newPassword  新密码
+		 * @return 返回的处理结果被Ajax接收
+		 */
+		@RequestMapping("/handle_update_password.do")
+		@ResponseBody
+		public ResponseResult<Void> handleUpdatePassword(HttpSession session,
+				@RequestParam("old_password") String oldPassword,@RequestParam("new_password") String newPassword){
+			System.out.println("收到修改密码的请求!");
+			// 从session中获取用户信息
+			User user = (User) session.getAttribute("user");
+			// 将用户ID与密码传入业务层的方法中
+			personalService.updatePassword(user.getId(), oldPassword, newPassword);
+			Number a = 1;
+			return new ResponseResult<Void>();
+		}
+		
+		/**
+		 * 处理用户在个人资料页面的修改信息操作
+		 * @param user	修改后提交上来的信息
+		 * @return	返回修改成功后的信息
+		 */
+		@RequestMapping("/handle_update_data.do")
+		@ResponseBody
+		public ResponseResult<String> handleUpdateData(User user,String bday,HttpSession session,
+				@RequestParam CommonsMultipartFile avatarFile){
+			
+			System.out.println("获取提交的信息: " + user);
+			// 获取用户id
+			Integer uid = getUid(session);
+			// 设置到提交的对象上
+			user.setId(uid);
+			
+			// 判断此次是否上传了头像
+			if(avatarFile.isEmpty()){
+				user.setAvadar(null);
+			}else{
+				// 获取上传头像的路径
+				String avatarPath = uploadAvatar(avatarFile);
+				user.setAvadar(avatarPath);
+				User u=(User)session.getAttribute("user");
+				u.setAvadar(avatarPath);
+				session.setAttribute("user", u);
+			}
+			// 补全默认属性, 解析头像字符串
+			personalService.tolerantData(user, bday);
+			// 执行修改
+			personalService.updateUserAbout(user);
+			
+			// 将头像路径绑定到json对象上,返回到页面中
+			ResponseResult<String> rr = new ResponseResult<String>();
+			rr.setData(user.getAvadar());
+			return rr;
+		}
+		
+		/**
+		 * 处理删除用户的收藏记录
+		 * @param id 该条收藏记录的ID
+		 * @return
+		 */
+		@RequestMapping("/handle_delete_collect.do")
+		@ResponseBody
+		public ResponseResult<Void> handleDeleteCollect(Integer id){
+			System.out.println("收藏记录的id: " + id);
+			personalService.deleteCollectById(id);
+			return new ResponseResult<Void>();
+		}
+		
+		/**
+		 * 处理删除用户的浏览记录
+		 * @param id 该条浏览记录的ID
+		 * @return 返回结果被Ajax接收
+		 */
+		@RequestMapping("/handle_delete_record.do")
+		@ResponseBody
+		public ResponseResult<Void> handleDeleteRecord(Integer id){
+			System.out.println(id);
+			indexImageService.deleteRecord(id);
+			return new ResponseResult<Void>();
+		}
+		
+		/**
+		 * 获取用户id
+		 * @param session 登录后用户信息在session内
+		 * @return 返回用户id
+		 */
+		public static Integer getUid(HttpSession session){
+			User user = (User) session.getAttribute("user");
+			return user.getId();
+		}
+		
+		/**
+		 * 进入个人资料页面时,更新个人信息
+		 * @param session 从session中获取已登录的用户信息
+		 * @return	返回用户信息被AJAX接收
+		 */
+		@RequestMapping("/show_about_data.do")
+		@ResponseBody
+		public ResponseResult<User> updateData(HttpSession session) {
+			User user = (User) session.getAttribute("user");
+			ResponseResult<User> rr = new ResponseResult<User>();
+			User u = personalService.getUserById(user.getId());
+			rr.setData(u);
+			return rr;
+		}
+		
+		/**
+		 * 上传头像
+		 * @param request HttpServletRequest
+		 * @param avatarFile CommonsMultipartFile
+		 * @return 成功上传后，文件保存到的路径
+		 * @throws UploadAvatarException 上传头像异常
+		 */
+		private String uploadAvatar(CommonsMultipartFile avatarFile) throws UploadAvatarException {
+			// 确定头像保存到的文件夹的路径：项目根目录下的upload文件夹
+			String uploadDirPath= "E:/漫画/avatar";
+			// 确定头像保存到的文件夹
+			File uploadDir = new File(uploadDirPath);
+			// 确保文件夹存在
+			if (!uploadDir.exists()) {
+				uploadDir.mkdirs();
+			}
+			// 确定头像文件的扩展名，例如：aaa.bbb.ccc.jpg，所需的是.jpg
+			int beginIndex = avatarFile.getOriginalFilename().lastIndexOf(".");
+			String suffix = avatarFile.getOriginalFilename().substring(beginIndex);
+			// 确定头像文件的文件名，必须唯一
+			String fileName = UUID.randomUUID().toString() + suffix;
+			// 确定头像保存到哪个文件
+			File dest = new File(uploadDir, fileName);
+					
+			// 保存头像文件
+			try {
+				avatarFile.transferTo(dest);
+				return "/book/avatar/" + fileName;
+			} catch (IllegalStateException e) {
+				throw new UploadAvatarException("非法状态！");
+			} catch (IOException e) {
+				throw new UploadAvatarException("读写出错！");
+			}
+		}
+		
+		
+		// 显示个人中心主页
+		@RequestMapping("/my_space.do")
+		public String showPersonal(HttpSession session,ModelMap map) {
+			map.addAttribute("wordsList", personalService.selectByUBid(getUid(session),1));
+			Double index = Double.valueOf(personalService.selectByUBids(getUid(session)).size());
+			map.addAttribute("wordsArrays", new Arrays[Integer.valueOf((int) Math.ceil(index / 4))]);
+			return "my_space";
+		}
+		
+		/**
+		 * 页面局部刷新留言板
+		 * @param session
+		 * @param page 翻页操作
+		 * @return
+		 */
+		@RequestMapping("/update_space_data.do")
+		@ResponseBody
+		public ResponseResult<List<Words>> getWordsData(HttpSession session, Integer page){
+			ResponseResult<List<Words>> rr = new ResponseResult<List<Words>>();
+			rr.setData(personalService.selectByUBid(getUid(session), page));
+			return rr;
+		}
+		
+		// 显示个人资料页面
+		@RequestMapping("/about_me.do")
+		public String showAbout() {
+			return "about_me";
+		}
+
+		/**
+		 * 显示浏览历史页面并加载数据
+		 * @param session 从session获取该用户ID
+		 * @param map  将该用户的浏览记录存放在map中
+		 * @return 视图
+		 */
+		@RequestMapping("/history.do")
+		public String showHistory(HttpSession session, ModelMap map) {
+			Integer uid = getUid(session);
+			System.out.println("显示浏览记录: " + indexImageService.selectRecords(uid));
+			map.addAttribute("recordList", indexImageService.selectRecords(uid));
+			return "history";
+		}
+
+		/**
+		 * 显示收藏内容页面并加载数据
+		 * @param session 从session获取该用户ID
+		 * @param map 将该用户的收藏记录存放在map中
+		 * @return 视图
+		 */
+		@RequestMapping("/my_favorite.do")
+		public String showMyFavorite(HttpSession session, ModelMap map) {
+			Integer uid = getUid(session);
+			map.addAttribute("collectList", personalService.getCollectList(uid,1));
+			Double index = Double.valueOf(personalService.getCollectList(uid).size());
+			map.addAttribute("array", new Arrays[Integer.valueOf((int) Math.ceil(index / 6))]);
+			return "my_favorite";
+		}
+		
+		/**
+		 * 收藏页面翻页
+		 * @param session
+		 * @param page 页数
+		 * @return
+		 */
+		@RequestMapping("/update_favorite_data.do")
+		@ResponseBody
+		public ResponseResult<List<collect>> updateFavoriteData(HttpSession session, Integer page){
+			ResponseResult<List<collect>> rr = new ResponseResult<List<collect>>();
+			rr.setData(personalService.getCollectList(getUid(session),page));
+			return rr;
+		}
+		
+		// 显示我的金币页面
+		@RequestMapping("/gold.do")
+		public String showGold(){
+			return "gold";
+		}
+		
+		// 显示充值页面
+		@RequestMapping("/recharge.do")
+		public String showRecharge() {
+			return "recharge";
+		}
+
+		// 显示修改密码压面
+		@RequestMapping("/update_password.do")
+		public String showUpdatePassword() {
+			return "update_password";
+		}
+
+		// 显示修改密码压面
+		@RequestMapping("/404.do")
+		public String show404() {
+			return "404";
+		}
+		
+		
+}

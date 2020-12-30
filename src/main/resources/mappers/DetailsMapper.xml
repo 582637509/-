@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.comic.mapper.DetailsMapper">
+
+	<!-- void collect(Integer uid,Integer bookid); -->
+	<!-- 收藏 -->
+	<insert id="collect">
+		insert into collect(uid,bookid)
+		values(#{uid},#{bookid})
+	</insert>
+
+	<!-- 查询书的用户id -->
+	<!-- Integer selectUidByBookId(Integer bookid); -->
+	<select id="selectUidByBookId" resultType="java.lang.Integer">
+		select uid from
+		collect where bookid=#{bookid}
+	</select>
+
+	<!-- 根据用户id和书籍id查找id -->
+	<!-- Integer selectById(Integer uid,Integer bookid) -->
+	<select id="selectById" resultType="java.lang.Integer">
+		select id from collect where
+		uid=#{uid} and bookid=#{bookid}
+	</select>
+
+	<!-- 根据用户id和书籍id删除记录 -->
+	<!-- Integer deleteById(Integer id); -->
+	<delete id="deleteById">
+		delete from collect where id=#{id}
+	</delete>
+
+	<!-- 插入留言参数 -->
+	<!-- Integer leaveMessage(Message message); -->
+	<insert id="leaveMessage" parameterType="cn.tedu.comic.entity.Message"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into message(
+		u_id,
+		book_id,
+		mess,
+		time,
+		system,
+		address,
+		browser
+		) values(
+		#{uid},
+		#{bookid},
+		#{mess},
+		#{time},
+		#{system},
+		#{address},
+		#{browser}
+		)
+	</insert>
+
+	<!-- 找出所有的评论 -->
+	<select id="selectMessage" resultType="cn.tedu.comic.entity.Message">
+		select
+		id,
+		u_id,
+		book_id,
+		mess,
+		time,
+		system,
+		address,
+		browser
+		from message where
+		book_id=#{book_id} order by id desc
+	</select>
+
+	<insert id="insertWords" parameterType="cn.tedu.comic.entity.Words" useGeneratedKeys="true" keyProperty="id">
+		insert into words(u_id,ub_id,bookid,message,time) values(#{Uid},#{UBid},#{bookid},#{words},#{time})
+	</insert>
+	
+	<!-- 依据用户ID查找一页留言 -->
+	<!-- List<Words> selectByUBid(@Param("uBid")Integer uBid, @Param("off")Integer off, @Param("len") Integer len); -->
+	<select id="selectByUBid" resultType="cn.tedu.comic.entity.Words">
+		Select
+			w.id,
+			w.u_id As Uid,
+			w.ub_id As UBid,
+			w.bookid,
+			w.message As words,
+			t.avadar As headPortrait,
+			t.username As username,
+			w.time
+		From
+			words w join t_user t
+		On 
+			w.ub_id = t.id
+		Where
+			w.ub_id=#{uBid}
+		Order By
+			w.time desc
+		Limit
+			 #{off},#{len}
+	</select>
+	
+	<!-- 依据用户ID查找所有留言 -->
+	<!-- List<Words> selectByUBids(Integer uBid); -->
+	<select id="selectByUBids" resultType="cn.tedu.comic.entity.Words">
+		Select
+			w.id,
+			w.u_id As Uid,
+			w.ub_id As UBid,
+			w.bookid,
+			w.message As words,
+			t.avadar As headPortrait,
+			t.username As username,
+			w.time
+		From
+			words w join t_user t 
+		On 
+			w.ub_id = t.id
+		Where
+			w.ub_id=#{uBid}
+	</select>
+	
+	<!-- 删除一条留言 -->
+	<!-- Integer deleteWords(Integer id); -->
+	<delete id="deleteWords">
+		Delete From words Where id=#{id}
+	</delete>
+</mapper>

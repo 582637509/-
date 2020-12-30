@@ -1,0 +1,60 @@
+package test;
+
+import java.math.BigDecimal;
+import java.util.Random;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import cn.tedu.comic.entity.Flow;
+import cn.tedu.comic.mapper.PayMapper;
+import cn.tedu.comic.service.IPayService;
+
+public class PayTest {
+	private AbstractApplicationContext ac;
+	private PayMapper pm;
+	private IPayService pms;
+	
+	@Before
+	public void before(){
+		ac=new ClassPathXmlApplicationContext("spring-dao.xml","spring-service.xml");
+		pm=ac.getBean("payMapper",PayMapper.class);
+		pms=ac.getBean("payService",IPayService.class);
+	} 
+	@After
+	public void after(){
+		ac.close();
+	}
+	
+	@Test
+	public void test1(){
+		Flow flow = new Flow();
+		flow.setUid(25);
+		flow.setOutTradeNo("20181114152400");
+		flow.setSellerId("2088102176391930");
+		flow.setTransMethod(10);
+		flow.setTotalAmount(new BigDecimal(1400));
+		flow.setGmtClose("2018-11-15");
+		pms.insertPayRecord(flow);
+	}
+	public static void main(String[] args) {
+		System.out.println(getCheckCode());
+	}
+	/**
+	 * 获取4位验证码中的4位随机字符串
+	 */
+	public static String getCheckCode(){
+	    //验证码中的字符由数字和大小写字母组成
+	    String code = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+	    Random r = new Random();
+	    StringBuffer sb = new StringBuffer();
+	    for (int i = 0; i < 4; i++) {
+	        sb.append(code.charAt(r.nextInt(code.length())));
+	    }
+
+	    return sb.toString().toUpperCase();
+	}
+}

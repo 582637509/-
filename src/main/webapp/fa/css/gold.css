@@ -1,0 +1,220 @@
+@CHARSET "UTF-8";
+
+.form-group {
+	width: 300px;
+	float: left;
+	padding-left: 50px;
+}
+
+li {
+	list-style: none
+}
+
+.clear {
+	clear: both
+}
+
+.clear:after {
+	clear: both;
+	display: table;
+	content: ''
+}
+
+.sign-layer {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 888;
+	display: none;
+	width: 100%
+}
+
+.darkcolor {
+	color: #b25d06 !important;
+}
+
+.darkbcolor {
+	background-color: rgba(213, 144, 41, 0.44) !important;
+}
+
+.trh {
+	
+}
+
+.trh th {
+	width: 14.2857%;
+	font-size: 140%;
+	text-align: center;
+	line-height: 60px;
+}
+
+.trb {
+	font-size: 200%;
+	font-weight: bold;
+}
+
+.trb td {
+	width: 14.2857%;
+	height: calc(width);
+	min-height: 40px;
+	line-height: 152%;
+	text-align: center;
+}
+
+.trb td div {
+	border-radius: 5px;
+	background-color: #FFFFF1;
+	height: 42px;
+	vertical-align: middle;
+	position: relative;
+}
+
+.radius5 {
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	-ms-border-radius: 5px;
+}
+
+.sign-cand {
+	background-color: #C7D8D6;
+	padding-bottom: 10px;
+	border-radius: 10px;
+	position: relative;
+	right: 90px;
+}
+
+.sign-blank {
+	margin: 2px 1px;
+}
+
+.sign-signed {
+	
+}
+
+.sign-unsign, .sign-pass {
+	text-align: center;
+	font-size: 15px;
+	margin: 2px 1px;
+}
+
+.sign-today {
+	background-color: #FFEF7E !important;
+}
+
+.btns {
+	font-size: 150%;
+	padding: 4px 10px;
+	cursor: pointer;
+}
+
+.sign-pin {
+	position: absolute !important;
+	left: 0;
+	top: 0;
+	margin: 0;
+}
+
+.svg-triangle {
+	width: 35px !important;
+	height: 35px !important;
+	margin: 0px auto;
+}
+
+.svg-triangle polygon {
+	fill: #7ac143;
+	stroke: #65b81d;
+	stroke-width: 2;
+}
+
+#spCurrentDay {
+	font-size: 120%;
+	line-height: 40px;
+	padding-left: 10px;
+}
+
+.circle {
+	width: 100px;
+	height: 100px;
+	background-color: #FFEB42;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+
+.smallClose {
+	color: grey;
+	font-size: 140%;
+	float: right;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.sign-history-body {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	vertical-align: middle;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, .33);
+}
+
+.sign-history-bodymain {
+	border: 3px #33b23f solid;
+	border-radius: 5px;
+	background-color: #fff;
+	opacity: 1;
+	width: 832px;
+}
+
+.sign-history-head {
+	margin-top: 25px;
+	color: #666;
+	text-align: center;
+	font-size: 14px
+}
+
+.sign-history-head li {
+	float: left;
+	width: 25%
+}
+
+.sign-history-head li h4 {
+	color: #33b23f;
+	font-size: 40px;
+	line-height: 50px
+}
+
+.sign-history-table {
+	overflow: hidden;
+	border-radius: 5px 5px 0 0;
+}
+
+.sign-history-table table {
+	width: 100%;
+	color: #666;
+	text-align: center;
+	font-size: 1pc;
+	border-spacing: 0
+}
+
+.sign-history-table table th {
+	width: 33.3%;
+	background-color: #f2f2f2;
+	text-align: center;
+	line-height: 40px
+}
+
+.sign-history-table td {
+	width: 33.3%;
+	border-bottom: 1px #e5e5e5 dashed;
+	line-height: 34px
+}
+
+th {
+	border: 2px solid #ddd;
+}

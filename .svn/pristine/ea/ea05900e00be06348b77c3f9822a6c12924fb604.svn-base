@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.comic.mapper.UserBookMapper">
+	<!-- 插入一本用户上传的书 -->
+	<!-- Integer insert(UserBook userBook); -->
+	<insert id="insert" parameterType="cn.tedu.comic.entity.UserBook"
+	useGeneratedKeys="true" keyProperty="id">
+		insert into user_book(
+			id,
+			uid,
+			bookname,
+			create_time,
+			pass,
+			url,
+			image1url,
+			image2url,
+			image3url
+		)value(
+			#{id},
+			#{uid},
+			#{bookname},
+			#{createTime},
+			#{pass},
+			#{url},
+			#{image1url},
+			#{image2url},
+			#{image3url}
+		);
+	</insert>
+	
+	<!-- 查询一本书 -->
+	<!-- UserBook getUserBookByBookName(String bookname); -->
+	<select id="getUserBookByBookName" resultType="cn.tedu.comic.entity.UserBook">
+		select 
+			id,
+			uid,
+			bookname,
+			create_time createTime,
+			pass,
+			url,
+			image1url,
+			image2url,
+			image3url
+		from 
+		user_book 
+		where
+		bookname=#{bookname}
+	</select>
+	
+	<!-- 查询所有的书 -->
+	<!-- List<UserBook> getAllUserBook(Integer l1,Integer l2) -->
+	<select id="getAllUserBook" resultType="cn.tedu.comic.entity.UserBook">
+		select 
+			id,
+			uid,
+			bookname,
+			create_time createTime,
+			pass,
+			url,
+			image1url,
+			image2url,
+			image3url
+		from user_book 
+		order by id desc
+		limit #{l1},#{l2};
+	</select>
+	
+	<!-- 根据书名查书的路径 -->
+	<!--	String getUrlByBookname(String bookname);-->
+	<select id="getUrlByBookname" resultType="java.lang.String">
+		select url from user_book where bookname=#{bookname}
+	</select>
+	
+	<!-- 查一共有多少本用户上传的书 -->
+	<!-- Integer getBooksCount(); -->
+	<select id="getBooksCount" resultType="java.lang.Integer">
+		select count(id) from user_book;
+	</select>
+</mapper>

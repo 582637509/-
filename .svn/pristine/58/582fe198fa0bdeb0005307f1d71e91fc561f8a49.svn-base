@@ -1,0 +1,58 @@
+package cn.tedu.comic.entity;
+
+import java.io.Serializable;
+
+public class Words implements Serializable{
+	
+	private static final long serialVersionUID = 1219552667572153671L;
+	private Integer id;
+	private Integer Uid;
+	private Integer UBid;
+	private Integer bookid;
+	private String words;
+	private String time;
+	
+	public int getId() {
+		return id;
+	}
+
+	public int getUid() {
+		return Uid;
+	}
+	public void setUid(int uid) {
+		this.Uid = uid;
+	}
+	public int getUBid() {
+		return UBid;
+	}
+	public void setUBid(int uBid) {
+		UBid = uBid;
+	}
+	public int getBookid() {
+		return bookid;
+	}
+	public void setBookid(int bookid) {
+		this.bookid = bookid;
+	}
+	public String getWords() {
+		return words;
+	}
+	public void setWords(String words) {
+		this.words = words;
+	}
+	@Override
+	public String toString() {
+		return "Words [id=" + id + ", Uid=" + Uid + ", UBid=" + UBid + ", bookid=" + bookid + ", words=" + words
+				+ ", time=" + time + "]";
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	
+}

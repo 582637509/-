@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.comic.mapper.VIPMapper">
+	<!-- 添加一个会员 -->
+	<!-- Integer upgradeVipUser(User user); -->
+	<update id="upgradeVipUser" parameterType="cn.tedu.comic.entity.User">
+		Update
+			t_user
+		Set
+			member=#{member}
+		Where
+			id=#{id}
+	</update>
+	
+	<!-- 查询所有会员用户 -->
+	<!-- User selectVIPUser(Integer id); -->
+	<select id="selectVIPUser" resultType="cn.tedu.comic.entity.User">
+		Select
+			member
+		From
+			t_user
+		Where
+			id=#{id}
+	</select>
+	
+	<!-- 修改用户的会员有效期 -->
+	<!-- Integer updateVIPUser(Integer id); -->
+	<update id="updateVIPUser">
+		Update
+			t_user
+		Set
+			member=null
+		Where
+			id=#{id}
+	</update>
+</mapper>

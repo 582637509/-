@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- 个人中心用户数据更新与修改 -->
+<mapper namespace="cn.tedu.comic.mapper.PersonalMapper">
+	<!-- 通过id获取用户信息 -->
+	<!-- User selectUserById(Integer id); -->
+	<select id="selectUserById" resultType="cn.tedu.comic.entity.User">
+		Select
+			id,
+			username,
+			password,
+			nickname,
+			qq,
+			email,
+			phone,
+			gender,
+			avadar,
+			salt,
+			member,
+			birthday,
+			contact_way,
+			signature,
+			gold,
+			is_delete,
+			status,
+			create_user,
+			create_time,
+			modified_user,
+			modified_time
+		From
+			t_user
+		Where
+			id=#{id}
+	</select>
+	
+	<!-- 通过id获取用户信息 -->
+	<!-- User selectUserById(Integer id); -->
+	<select id="selectUserByUsername" resultType="cn.tedu.comic.entity.User">
+		Select
+			id,
+			username,
+			password,
+			email,
+			phone,
+			gender,
+			avadar,
+			salt,
+			member,
+			birthday,
+			contact_way,
+			signature,
+			gold,
+			is_delete,
+			status,
+			create_user,
+			create_time,
+			modified_user,
+			modified_time
+		From
+			t_user
+		Where
+			username=#{username}
+	</select>
+	
+	
+	<!-- 修改个人资料 -->
+	<!-- User updateUserAbout(User user); -->
+	<update id="updateUserAbout" parameterType="cn.tedu.comic.entity.User">
+		Update
+			t_user
+		Set
+			<if test=" nickname != null">
+				nickname=#{nickname},
+			</if>
+			<if test=" qq != null">
+				qq=#{qq},
+			</if>
+			<if test="avadar != null">
+				avadar=#{avadar},
+			</if>
+			<if test="email != null">
+				email=#{email},
+			</if>
+			<if test="gender != null">
+				gender=#{gender},
+			</if>
+			<if test="birthday != null">
+				birthday=#{birthday},
+			</if>
+			<if test="phone != null">
+				phone=#{phone},
+			</if>
+			<if test="signature != null">
+				signature=#{signature},
+			</if>
+			create_user=#{createUser},
+			create_time=#{createTime},
+			modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+		Where
+			id=#{id}
+	</update>		
+	
+	<!-- 修改密码 -->
+	<!-- Integer updatePassword(@Param("id") Integer id,@Param("password") String password); -->
+	<update id="updatePassword">
+		Update
+			t_user
+		Set
+			password=#{password}
+		Where
+			id=#{id}
+	</update>
+	
+	<!-- 查询用户的收藏记录 -->
+	<!-- List<collect> getCollectBooksByUid(@Param("uid")Integer uid, @Param("off")Integer off, @Param("len")Integer len); -->
+	<select id="getCollectBooksByUid" resultType="cn.tedu.comic.entity.collect">
+		Select 
+			c.id,c.uid,b.bookname,b.cover,b.url
+		From
+			collect c join books b
+		On
+			c.bookid = b.id
+		Where
+			c.uid = #{uid}
+		Limit 
+			#{off},#{len}
+	</select>
+
+	<!-- 查询用户的收藏记录 -->
+	<!-- List<collect> getCollectBooksByUids(Integer uid); -->
+	<select id="getCollectBooksByUids" resultType="cn.tedu.comic.entity.collect">
+		Select 
+			c.id,c.uid,b.bookname,b.cover,b.url
+		From
+			collect c join books b
+		On
+			c.bookid = b.id
+		Where
+			c.uid = #{uid}
+	</select>
+	
+	<!-- 删除一条收藏记录 -->
+	<!-- Integer deleteCollectById(Integer collectId); -->
+	<delete id="deleteCollectById">
+		Delete From collect Where id=#{collectId}
+	</delete>
+</mapper>

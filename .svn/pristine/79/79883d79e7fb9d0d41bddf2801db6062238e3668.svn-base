@@ -1,0 +1,200 @@
+@CHARSET "UTF-8";
+#from_1 a img {
+	height: 40px;
+	margin-left: 30px;
+}
+
+.vip-tennis-condition{
+	width: 229px; height: 139px; border: 1px solid yellow;
+	float: left; margin: auto; margin-bottom: 20px;
+	border: 1px solid #e8e8e8;background-image: url('../../image/personage/bei.png');
+}
+.menu-text{
+    display: inline-block;
+    width: 133px;
+    height: 41px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#big-div {
+	width: 980px;
+	height: 1000px;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: auto;
+	margin-top: 60px;
+	collapse:collapse;
+}
+
+#left-div {
+	float: left;
+	text-align: left;
+	width: 229px;
+	height: 580px;
+	text-align: center;
+	background-color: #f9f9f9;
+	border:1px solid #ddd;
+	clear: left;
+	padding-top: 11px;
+	overflow: hidden;
+}
+
+#right-div {
+	width: 751px;
+	float: left;
+	height: 700px;
+	border:1px solid #ddd;
+	margin-left:-1px;
+	padding: 18px;
+	background-color: #e5f5e524;
+}
+
+#baocun {
+	border-radius: 8px;
+	margin: 5px auto;
+}
+
+.link {
+    color: #000;
+    position: relative;
+    left: -1px;
+    display: block;
+    font-size: 16px;
+    width:231px;
+    height: 41px;
+    line-height: 41px;
+    padding: 0 0 0 35px;
+    margin-left: -1px;
+}
+.tle{
+	height:41px;
+	width:227px;
+	margin: 10px auto;
+}
+.tle:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+.ff-icon{
+	vertical-align: middle;
+}
+.prepr{
+	height: 116px;
+	float: left;
+	overflow: hidden;
+	margin:auto auto 10px 35px;
+	position: relative;
+}
+.progress{
+	width:200px;
+	position: absolute;
+	height:20px;
+	left:35px;
+	top:95px;
+}
+.menu-text  .ff-icon {
+    color: #ddd;
+}
+.menu-text {
+    display: inline-block;
+    width: 133px;
+    height: 41px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+.ls:HOVER {
+	cursor: pointer;
+	color: rgb(250, 145, 68);
+}
+a{
+	text-decoration: none;
+    outline: 0;
+}
+.form-control {
+	width: 126px;
+}
+.-td{
+	width:139px;
+}
+.glyphicon{
+	cursor: pointer;
+}
+.qst{
+	padding-left: 12px;
+	padding-right: 10px;
+	color: rgba(0, 114, 255, 0.78);
+}
+.con{
+	display: none;
+}
+.tex {
+	text-align: right;
+	font-size: 14px;
+	height: 54px;
+}
+.lii{
+	float: left;
+	list-style: none;
+	margin: auto 14px;
+	font-size: 18px;
+}
+#bac{
+	background-color:rgb(250, 145, 68);
+}
+#right-div>table>tbody>tr>td>input{
+	margin: 10px auto 10px;
+}
+.goods-items{
+	width: 130px;
+	height: 150px;
+	float: left;
+	margin: 0 0 10px 10px;
+	border: 1px solid #ddd;
+	text-align: center;
+	cursor: pointer;
+}
+.total{
+	width: 128px;
+	height: 88;
+	padding-top: 20px;
+	border-buttom: 3px dashed #fff;
+}
+em{
+	font-size: 30px;
+}
+#outer-div{
+	overflow: hidden;
+	margin-top: 50px;
+}
+.channels{
+	overflow: hidden;
+}
+.channel{
+	float: left;
+	margin-left: 29px;
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+.channel2{
+	float: left;
+	margin-left: 29px;
+	border: 1px solid #ddd;
+	padding: 10px;
+	cursor: pointer;
+}
+.relative-to-total{
+	font-size: 18px;
+	padding-bottom: 15px;
+}
+.h-r{
+	margin-bottom: 10px;
+}
+.cha{	
+    padding: 30px 0 0 40px;
+}

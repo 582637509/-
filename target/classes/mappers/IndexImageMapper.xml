@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.comic.mapper.IndexImageMapper">
+	<!-- 插入一张主页图片信息 -->
+	<!-- Integer insertImageinfo(IndexImage indexImage); -->
+	<insert id="insertImageinfo" parameterType="cn.tedu.comic.entity.IndexImage"
+	useGeneratedKeys="true" keyProperty="id">
+		insert into index_image(
+			location,
+			bookname,
+			created_user,
+			created_time,
+			modified_user,
+			modified_time
+		) value(
+			#{location},
+			#{bookname},
+			#{createdUser},
+			#{createdTime},
+			#{modifiedUser},
+			#{modifiedTime}
+		)
+	</insert>
+	
+	<!-- 查询所有的主页图片信息 -->
+	<!-- List<IndexImage> selectAllIndexImage(); -->
+	<select id="selectAllIndexImage" resultType="cn.tedu.comic.entity.IndexImage">
+		select
+			id,
+			location,
+			bookname,
+			created_user createdUser,
+			created_time createdTime,
+			modified_user modifiedUser,
+			modified_time modifiedTime
+		from index_image
+	</select>
+	
+	<!-- 插入一条用户的浏览记录 -->
+	<!-- Record insertRecord(Record record); -->
+	<insert id="insertRecord" parameterType="cn.tedu.comic.entity.Record">
+		Insert into record (
+			uid,
+			bookname,
+			look_time
+		) Values (
+			#{uid},#{bookname},#{date}
+		)
+	</insert>
+	
+	<!-- 通过用户id,书名查找该浏览记录是否有存储过 -->
+	<!-- Integer selectRecord(Integer uid, String bookname); -->
+	<select id="selectRecord" resultType="java.lang.Integer">
+		Select
+			count(uid)
+		From
+			record
+		Where
+			uid=#{uid} And bookname=#{bookname}
+	</select>
+	
+	<!-- 为了不重复出现同一书名的浏览记录,将重复出现的记录的时间,修改为最新时间 -->
+	<!-- Integer updateRecord(Record record); -->
+	<update id="updateRecord" parameterType="cn.tedu.comic.entity.Record">
+		Update
+			record
+		Set 
+			look_time=#{date}
+		Where
+			uid=#{uid} And bookname=#{bookname}
+	</update>
+	
+	<!-- 查询用户所有浏览记录 -->
+	<!-- List<Record> selectRecords(Integer uid); -->
+	<select id="selectRecords" resultType="cn.tedu.comic.entity.Record">
+		Select
+			id,uid,bookname,look_time As date
+		From
+			record
+		Where
+			uid=#{uid}
+		Order By 
+			look_time desc
+	</select>
+	
+	<!-- 删除一条浏览记录 -->
+	<!-- Integer deleteRecord(Integer id); -->
+	<delete id="deleteRecord">
+		Delete From record Where id=#{id}
+	</delete>
+</mapper>

@@ -1,0 +1,50 @@
+package cn.tedu.comic.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import cn.tedu.comic.entity.Message;
+
+public interface DetailsMapper {
+
+	/**
+	 * 收藏
+	 * @param uid 用户id
+	 * @param bookid 书的id
+	 * @return 
+	 */
+	Integer collect(@Param("uid")Integer uid,@Param("bookid")Integer bookid);
+	
+	/**
+	 * 根据书籍的id查询用户记录
+	 * @param bookid 书籍的id
+	 * @return 返回结果
+	 */
+	Integer selectUidByBookId(Integer bookid);
+	
+	/**
+	 * 删除收藏记录
+	 */
+	Integer deleteById(Integer id);
+	
+	/**
+	 * 增加评论
+	 */
+	Integer leaveMessage(Message message);               
+	
+	/**
+	 * 根据书籍id查询评论
+	 * @param bookId
+	 * @return
+	 */
+	List<Message> selectMessage(@Param("book_id")Integer bookId);
+	
+	/**
+	 * 根据用户id,和书籍id,查找出id
+	 * @param uid 用户id
+	 * @param bookid 书籍id
+	 * @return 返回id
+	 */
+	Integer selectById(@Param("uid")Integer uid,@Param("bookid")Integer bookid);
+}

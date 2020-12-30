@@ -1,0 +1,123 @@
+/*瀵艰埅鏍廲ss*/
+<style type="text/css">
+			#text_1{
+				width: 16em;	
+			}
+			
+			#from_1{
+				margin-top: 7px;
+			}
+			
+			#dididc{
+				width: 100px;
+				height: 1000px;
+				background-color: red;
+			}
+			
+			#from_1 a img{
+				height: 40px;
+				margin-left: 30px;
+			}
+			
+			
+			/* 妞ゅ爼鍎存妯款吇閺勫墽銇氶柈銊ュ瀻 */
+			#div1 {
+			height: 2000px;
+			background-color: red;
+			position: relative;
+			}
+
+#nav_3 {
+	height: 150px;
+	width: 1350px;
+	background-repeat: no-repeat;
+	background-size: 1500px 300px;
+	background-position: 100%;
+	/* background-color: white; */
+	background-image: url("../image/nav/back_1.bmp");
+	overflow: hidden;
+}
+
+#for {
+	position: absolute;
+	right: 400px;
+	margin: 10px;
+}
+
+/* 閹兼粎鍌ㄩ幐澶愭尦 */
+.btnss {
+	padding: 6px 9px;
+	margin-left: -42px;
+	margin-top: -3px;
+	border: 2px solid #ece8e6;
+	border-radius: 5px;
+	background-color: rgb(51, 122, 183);
+	color: white;
+}
+/* 瑜版捇绱堕弽鍥┬╅崝銊ュ煂閹兼粎鍌ㄩ幐澶愭尦閹碉拷閺勫墽銇氶惃鍕櫏閺嬶拷   */
+.btnss:HOVER {
+	background-color: rgb(250, 145, 68);
+	color: white;
+}
+
+/*鐎佃壈鍩呴弽蹇旀殻娴ｏ拷 */
+#dmw {
+	position: absolute;
+	top: 20px;
+	left: 80px;
+}
+
+/* 閺傚洦婀版潏鎾冲弳濡楋拷 */
+#text {
+	padding: 5px 5px;
+	border: 3px solid #ece8e6;
+}
+
+/* 閺傚洦婀版潏鎾冲弳濡楀棔绗呴棃銏㈡畱閹稿鎸抽弫缈犵秼  */
+#btn_bt1 {
+	position: relative;
+	top: 80px;
+	left: 500px;
+}
+
+/* 閺傚洦婀板鍡曠瑓闂堛垻娈戦崡鏇氶嚋閹稿鎸� */
+.btn_bt2 {
+	background-color: white;
+	border: 0px;
+}
+
+/* 瑜版捇绱堕弽鍥┬╅崝銊ュ煂閺傚洦婀板鍡曠瑓闂堛垹鐡ф担鎾村閺勫墽銇氶惃鍕Ц閹拷  */
+.btn_bt2:HOVER {
+	color: rgb(51, 122, 183);
+	border-bottom: 1px solid rgb(51, 122, 183);
+}
+
+/* 鐎佃壈鍩呴幐澶愭尦  */
+#btn_bt3 {
+	position: absolute;
+	left: 400px;
+	top: 110px;
+}
+
+
+/*	閹跺av閻ㄥ埓agin鐠佸墽鐤嗘稉锟�0	*/
+.navbar {
+	margin: 0px;
+}
+
+.hang {
+	border: 1px solid red;
+	width: 50px;
+	height: 1000px;
+	background-color: red;
+}
+
+#nav_3 a img{
+	width: 50px;
+	position: absolute;
+	top: 30px;
+	right: 60px;
+}
+			
+	
+		</style>

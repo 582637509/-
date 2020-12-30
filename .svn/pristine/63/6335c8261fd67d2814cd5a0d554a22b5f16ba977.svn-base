@@ -1,0 +1,6 @@
+url=jdbc:mysql://176.128.17.14:3306/comics?useUnicode=true&characterEncoding=utf8
+driver=com.mysql.jdbc.Driver
+username=root
+password=123456
+initialSize=3
+maxActive=50

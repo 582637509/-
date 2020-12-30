@@ -1,0 +1,96 @@
+package test;
+
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import cn.tedu.comic.entity.Book;
+import cn.tedu.comic.mapper.BookMapper;
+import cn.tedu.comic.service.impl.BookService;
+
+public class TestBook {
+	AbstractApplicationContext ac;
+	BookMapper bookMapper;
+	BookService bookService;
+	@Before
+	public void before(){
+		ac=new ClassPathXmlApplicationContext("spring-dao.xml","spring-service.xml");
+		bookMapper=ac.getBean("bookMapper",BookMapper.class);
+		bookService=ac.getBean("bookService",BookService.class);
+	} 
+	@After
+	public void after(){
+		ac.close();
+	}
+	
+	@Test
+	//测试持久层插入
+	public void test1(){
+		Book book=new Book();
+		book.setUrl("/book/非人哉");
+		book.setBookname("非人哉");
+		book.setPlace("中国");
+		book.setIsUse(0);
+		book.setType("搞笑");
+		bookMapper.insertBook(book);
+	}
+	@Test
+	//测试持久层根据书名查询书
+	public void test2(){
+		Book book=bookMapper.selectBookByBookname("地府我开的");
+		System.out.println(book);
+	}
+	
+	@Test
+	//测试业务层查询书名
+	public void test3(){
+		Book book=bookService.selectBookByBookName("地府我开的");
+		System.out.println(book);
+	}
+	
+	@Test
+	//测试持久层模糊查询
+	public void test4(){
+		List<Book> list=bookMapper.selectBooksLikeName("人");
+		System.out.println(list);
+	}
+	
+	@Test
+	//测试持久层精准查询
+	public void test5(){
+		List<Book> list=bookMapper.getBooksByPlace("中国", 0, 6);
+		System.out.println(list);
+	}
+	
+	@Test
+	//测试业务层产地查询
+	public void test6(){
+		System.out.println(bookService.getBooksByPlaceInPage("中国", 4));
+	}
+	
+	@Test
+	//测试业务层页数查询
+	public void test7(){
+		System.out.println(bookService.getPageByPlace("中国"));
+	}
+	
+	@Test
+	//测试持久层人气排行查询
+	public void test8(){
+		System.out.println(bookMapper.getFiveBookByPlace("中国"));
+	}
+	
+	@Test
+	//测试持久层人气排行查询
+	public void test9(){
+		System.out.println(bookMapper.getVIPBooks());
+	}
+
+	
+	
+	
+}

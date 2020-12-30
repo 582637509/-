@@ -1,0 +1,110 @@
+package cn.tedu.comic.service.impl;
+
+import java.util.Date;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import cn.tedu.comic.entity.User;
+import cn.tedu.comic.mapper.UserMapper;
+import cn.tedu.comic.service.IUserService;
+import cn.tedu.comic.service.ex.InsertDateException;
+import cn.tedu.comic.service.ex.PasswordNotMatchException;
+import cn.tedu.comic.service.ex.UserAlreadyExistException;
+import cn.tedu.comic.service.ex.UserNotFountException;
+
+@Service
+public class UserService implements IUserService{
+
+	@Autowired
+	private UserMapper userMapper;
+	
+	//注册业务
+	public User reg(User user) {
+		//通过用户名查询用户
+		User u=selectUserByUserName(user.getUsername());
+		//判断读到的用户是否为null
+		if(u==null){
+			//如果为null,执行插入
+			insert(user);
+			return user;
+		}else{
+			//如果不为null
+			throw new UserAlreadyExistException("用户名("+u.getUsername()+")已存在");
+		}
+	}
+	
+	//登录业务
+	public User login(User user){
+		User u=selectUserByUserName(user.getUsername());
+		if(u==null){
+			throw new UserNotFountException("用户"+user.getUsername()+"不存在！");
+		}else{
+			String salt=u.getSalt();
+			String password=getEncryptPassword(user.getPassword(), salt);
+			if(u.getPassword().equals(password)){
+				return u;
+			}else{
+				throw new PasswordNotMatchException("密码不匹配！");
+			}
+		}
+	}
+	
+	//检查用户名是否存在
+	public void checkUsername(String username) {
+		User user=userMapper.selectUserByUserName(username);
+		if(user!=null){
+			throw new UserAlreadyExistException("用户名已存在！");
+		}
+	}
+	
+	//插入一条用户，并赋予初值
+	public void insert(User user) {
+		Date now=new Date();
+		String salt=getRamdomSalt();
+		user.setSalt(salt);
+		String epassword=getEncryptPassword(user.getPassword(), salt);
+		user.setPassword(epassword);//把密码设置为加密后的密码
+		user.setCreateTime(now);
+		user.setModifiedTime(now);
+		user.setIsDelete(0);
+		user.setGender(0);
+		user.setGold(0);
+		user.setSignature("这家伙很懒，什么也没留下");
+		user.setModifiedUser(user.getUsername());
+		user.setCreateUser(user.getUsername());
+		Integer rows=userMapper.insert(user);
+		//如果受影响行数不为1
+		if(rows!=1){
+			throw new InsertDateException("插入异常！请联系系统管理员");
+		}
+	}
+
+	//根据用户名获取用户信息
+	public User selectUserByUserName(String username) {
+		return userMapper.selectUserByUserName(username);
+	}
+
+	//获取随机盐
+	private String getRamdomSalt(){
+		return UUID.randomUUID().toString().replaceAll("-", "");
+	}
+
+	//对密码进行加密
+	private String getEncryptPassword(String password,String salt){
+		//对原密码加密
+		String s1=DigestUtils.md5DigestAsHex(password.getBytes()).toUpperCase();
+		//对现密码加密
+		String s2=DigestUtils.md5DigestAsHex(salt.getBytes()).toUpperCase();
+		//拼起来再加密5次
+		String s3=s1+s2;
+		for(int i=0;i<5;i++){
+			s3=DigestUtils.md5DigestAsHex(s3.getBytes()).toUpperCase();
+		}
+		//返回加密结果
+		return s3;
+	}
+
+}

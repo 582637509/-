@@ -1,0 +1,72 @@
+#success_message {
+	display: none;
+}
+
+  /*最外层容器样式*/
+        .wrap-p {
+            width: 100px;
+            height: 100px;
+		    margin-right: 60px;
+            position: fixed;
+            top: 450px;
+            right: -10px;
+        }
+
+        /*包裹所有容器样式*/
+        .cube {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(-80deg);
+            animation: rotate linear 20s infinite;
+        }
+
+        @-webkit-keyframes rotate {
+            from {
+                transform: rotateX(-8deg) rotateY(360deg);
+            }
+            to {
+                transform: rotateX(-10deg) rotateY(-100deg);
+            }
+        }
+
+        /*定义小正方体样式*/
+        .cube span {
+            display: block;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
+
+        .cube .in_pic {
+            width: 100px;
+            height: 100px;
+        }
+
+        .cube .in_front {
+            transform: rotateY(0deg) translateZ(50px);
+        }
+
+        .cube .in_back {
+            transform: translateZ(-50px) rotateY(180deg);
+        }
+
+        .cube .in_left {
+            transform: rotateY(-90deg) translateZ(50px);
+        }
+
+        .cube .in_right {
+            transform: rotateY(90deg) translateZ(50px);
+        }
+
+        .cube .in_top {
+            transform: rotateX(90deg) translateZ(50px);
+        }
+
+        .cube .in_bottom {
+            transform: rotateX(-90deg) translateZ(50px);
+        }
+

@@ -1,0 +1,40 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<nav class="navbar navbar-inverse navbar-fixed-top" id="nav_div"
+	style="height: 51px;">
+	<div class="container">
+		<div class="navbar-header">
+			<button class="navbar-toggle" data-toggle="collapse"
+				data-target="#navbarHideen">
+				<!-- 
+  
+                                		时间：2018-09-28
+                                       	描述：当切换的时候有就显示出现,显示三行横杆
+                              	 	-->
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a href="/xiaodaicomic/index.do" class="navbar-brand"
+				style="font-weight: bold;" class="active">小呆漫画网</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="navbarHideen">
+			<ul class="nav navbar-nav">
+				<li><a href="${pageContext.request.contextPath}/area.do?place=中国">国产漫画</a></li>
+				<li><a href="${pageContext.request.contextPath}/area.do?place=日本">日本漫画</a></li>
+				<li><a href="${pageContext.request.contextPath}/area.do?place=欧美">欧美漫画</a></li>
+				<li><a href="${pageContext.request.contextPath}/area.do?place=今日">今日更新</a></li>
+				<li><a href="${pageContext.request.contextPath}/area.do?place=VIP">VIP专区</a></li>
+				<li><a href="${pageContext.request.contextPath}/share/share.do">分享区</a></li>
+			</ul>
+
+			<form action="${pageContext.request.contextPath}/selectBook.do" class="form-inline navbar-right" id="from_1">
+				<input name="likename" type="text" class="form-control" placeholder="请输入搜索内容"
+					id="text_1">
+				<button type="submit" class="btn btn-default btn-primary">提交按钮</button>
+				<a href="#"> <img src="../image/personage/user-photo.png"
+					style="height: 40px; width: 40px;" />
+				</a>
+			</form>
+		</div>
+	</div>
+</nav>

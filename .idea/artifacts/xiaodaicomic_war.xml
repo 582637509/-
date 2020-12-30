@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="xiaodaicomic:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>xiaodaicomic</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="xiaodaicomic-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="xiaodaicomic:war exploded" />
+    </root>
+  </artifact>
+</component>

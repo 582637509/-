@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.comic.mapper.UserMapper">
+
+	<!-- 插入数据 -->
+	<!-- Integer insert(User user) -->
+	<insert id="insert" parameterType="cn.tedu.comic.entity.User" 
+	useGeneratedKeys="true" keyProperty="id">
+		insert into t_user(
+			username,
+			password,
+			email,
+			phone,
+			gender,
+			avadar,
+			salt,
+			member,
+			birthday,
+			contact_way,
+			signature,
+			gold,
+			is_delete,
+			status,
+			create_user,
+			create_time,
+			modified_user,
+			modified_time
+		)values(
+			#{username},
+			#{password},
+			#{email},
+			#{phone},
+			#{gender},
+			#{avadar},
+			#{salt},
+			#{member},
+			#{birthday},
+			#{contactWay},
+			#{signature},
+			#{gold},
+			#{isDelete},
+			#{status},
+			#{createUser},
+			#{createTime},
+			#{modifiedUser},
+			#{modifiedTime})
+	</insert>
+	
+	<!-- 根据用户名搜索用户 -->
+	<!-- User selectUserByUserName(String username) -->
+	<select id="selectUserByUserName" resultType="cn.tedu.comic.entity.User">
+		select
+			id,
+			username,
+			password,
+			email,
+			phone,
+			gender,
+			avadar,
+			salt,
+			member,
+			birthday,
+			contact_way contactWay,
+			signature,
+			gold,
+			is_delete isDelete,
+			status
+		from t_user 
+		where username=#{username};
+	</select>
+	
+</mapper>
